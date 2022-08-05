@@ -1,94 +1,40 @@
-export const categories = {
+export const accessCategories = {
   lihat: ['organizer'],
   tambah: ['organizer'],
   edit: ['organizer'],
   hapus: ['organizer'],
 };
 
-export const talents = {
+export const accessTalents = {
   lihat: ['organizer'],
   tambah: ['organizer'],
   edit: ['organizer'],
   hapus: ['organizer'],
 };
 
-export const events = {
+export const accessEvents = {
   lihat: ['organizer'],
   tambah: ['organizer'],
   edit: ['organizer'],
   hapus: ['organizer'],
 };
 
-export const participant = {
+export const accessParticipant = {
   lihat: ['organizer'],
   tambah: ['organizer'],
   edit: ['organizer'],
   hapus: ['organizer'],
 };
-export const payments = {
+export const accessPayments = {
   lihat: ['organizer'],
   tambah: ['organizer'],
   edit: ['organizer'],
   hapus: ['organizer'],
 };
 
-export const orders = {
+export const accessOrders = {
   lihat: ['organizer', 'admin', 'owner'],
   tambah: ['organizer', 'admin', 'owner'],
   edit: ['organizer', 'admin', 'owner'],
   hapus: ['organizer', 'admin', 'owner'],
-};
-
-export const hubList = {
-  lihat: ['organizer'],
-  tambah: ['organizer'],
-  edit: ['organizer'],
-  hapus: ['organizer'],
-};
-
-export const location = {
-  lihat: ['organizer'],
-  tambah: ['organizer'],
-  edit: ['organizer'],
-  hapus: ['organizer'],
-};
-
-export const classification = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
-};
-export const kbli = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
-};
-
-export const pkg = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
-};
-export const addons = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
-};
-
-export const include = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
-};
-
-export const draft = {
-  lihat: ['organizer', 'NOTARIS'],
-  tambah: ['organizer', 'NOTARIS'],
-  edit: ['organizer', 'NOTARIS'],
-  hapus: ['organizer', 'NOTARIS'],
 };

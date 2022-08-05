@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb';
@@ -11,13 +11,36 @@ import AlertMessage from '../../components/Alert';
 import Swal from 'sweetalert2';
 import { deleteData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
+import { accessTalents } from '../../const/access';
 
 function TalentsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const notif = useSelector((state) => state.notif);
   const talents = useSelector((state) => state.talents);
+
+  const [access, setAccess] = useState({
+    tambah: false,
+    hapus: false,
+    edit: false,
+  });
+
+  const checkAccess = () => {
+    let { role } = localStorage.getItem('auth')
+      ? JSON.parse(localStorage.getItem('auth'))
+      : {};
+    const access = { tambah: false, hapus: false, edit: false };
+    Object.keys(accessTalents).forEach(function (key, index) {
+      if (accessTalents[key].indexOf(role) >= 0) {
+        access[key] = true;
+      }
+    });
+    setAccess(access);
+  };
+
+  useEffect(() => {
+    checkAccess();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchTalents());
@@ -52,8 +75,12 @@ function TalentsPage() {
 
   return (
     <Container className='mt-3'>
-      <Button action={() => navigate('/talents/create')}>Tambah</Button>
       <BreadCrumb textSecound={'Talents'} />
+      {access.tambah && (
+        <div className='mb-3'>
+          <Button action={() => navigate('/talents/create')}>Tambah</Button>
+        </div>
+      )}
       <SearchInput
         name='keyword'
         query={talents.keyword}
@@ -67,8 +94,8 @@ function TalentsPage() {
         thead={['Nama', 'Role', 'Avatar', 'Aksi']}
         data={talents.data}
         tbody={['name', 'role', 'avatar']}
-        editUrl={`/talents/edit`}
-        deleteAction={(id) => handleDelete(id)}
+        editUrl={access.edit ? `/talents/edit` : null}
+        deleteAction={access.hapus ? (id) => handleDelete(id) : null}
         withoutPagination
       />
     </Container>
