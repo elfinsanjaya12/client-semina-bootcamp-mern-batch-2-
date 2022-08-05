@@ -34,15 +34,7 @@ function Categories() {
       cancelButtonText: 'Batal',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await deleteData(`api/v1/categories/${id}`);
-
-        // Swal.fire({
-        //   position: 'top-end',
-        //   icon: 'success',
-        //   title: `Berhasil hapus kategori ${res.data.data.name}`,
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // });
+        const res = await deleteData(`/cms/categories/${id}`);
 
         dispatch(
           setNotif(
@@ -59,8 +51,12 @@ function Categories() {
 
   return (
     <Container className='mt-3'>
-      <Button action={() => navigate('/categories/create')}>Tambah</Button>
       <BreadCrumb textSecound={'Categories'} />
+
+      <Button className={'mb-3'} action={() => navigate('/categories/create')}>
+        Tambah
+      </Button>
+
       {notif.status && (
         <AlertMessage type={notif.typeNotif} message={notif.message} />
       )}
