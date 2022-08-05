@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb';
@@ -10,6 +10,7 @@ import AlertMessage from '../../components/Alert';
 import Swal from 'sweetalert2';
 import { deleteData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
+import { accessCategories } from '../../const/access';
 
 function Categories() {
   const navigate = useNavigate();
@@ -17,6 +18,28 @@ function Categories() {
 
   const notif = useSelector((state) => state.notif);
   const categories = useSelector((state) => state.categories);
+  const [access, setAccess] = useState({
+    tambah: false,
+    hapus: false,
+    edit: false,
+  });
+
+  const checkAccess = () => {
+    let { role } = localStorage.getItem('auth')
+      ? JSON.parse(localStorage.getItem('auth'))
+      : {};
+    const access = { tambah: false, hapus: false, edit: false };
+    Object.keys(accessCategories).forEach(function (key, index) {
+      if (accessCategories[key].indexOf(role) >= 0) {
+        access[key] = true;
+      }
+    });
+    setAccess(access);
+  };
+
+  useEffect(() => {
+    checkAccess();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -53,9 +76,14 @@ function Categories() {
     <Container className='mt-3'>
       <BreadCrumb textSecound={'Categories'} />
 
-      <Button className={'mb-3'} action={() => navigate('/categories/create')}>
-        Tambah
-      </Button>
+      {access.tambah && (
+        <Button
+          className={'mb-3'}
+          action={() => navigate('/categories/create')}
+        >
+          Tambah
+        </Button>
+      )}
 
       {notif.status && (
         <AlertMessage type={notif.typeNotif} message={notif.message} />
@@ -65,8 +93,8 @@ function Categories() {
         thead={['Nama', 'Aksi']}
         data={categories.data}
         tbody={['name']}
-        editUrl={`/categories/edit`}
-        deleteAction={(id) => handleDelete(id)}
+        editUrl={access.edit ? `/categories/edit` : null}
+        deleteAction={access.hapus ? (id) => handleDelete(id) : null}
         withoutPagination
       />
     </Container>
