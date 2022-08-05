@@ -4,6 +4,7 @@ import GuestOnlyRoute from '../components/GuestOnlyRoute';
 
 import Login from '../pages/signin';
 import { HomeRoute } from './HomeRoute';
+import { TalentsRoute } from './TalentsRoute';
 import { CategoriesRoute } from './CategoriesRoute';
 import SNavbar from '../components/Navbar';
 
@@ -29,6 +30,7 @@ export function AppRoutes() {
       >
         <Route path='dashboard/*' element={<HomeRoute />} />
         <Route path='categories/*' element={<CategoriesRoute />} />
+        <Route path='talents/*' element={<TalentsRoute />} />
         <Route path='dashboard/*' element={<HomeRoute />} />
         <Route path='' element={<Navigate to='/dashboard' replace={true} />} />
       </Route>
