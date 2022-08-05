@@ -6,10 +6,7 @@ import SBreadCrumb from '../../components/Breadcrumb';
 import SNavbar from '../../components/Navbar';
 
 export default function Dashboard() {
-  const token = localStorage.getItem('token');
-
-  if (!token) return <Navigate to='/signin' replace={true} />;
-
+  console.log('sdfhs');
   return (
     <>
       <SNavbar />

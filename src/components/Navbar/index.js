@@ -17,9 +17,9 @@ function SNavbar() {
 
   useEffect(() => {
     const fetchData = () => {
-      let role = localStorage.getItem('role')
-        ? localStorage.getItem('role')
-        : '';
+      let { role } = localStorage.getItem('auth')
+        ? JSON.parse(localStorage.getItem('auth'))
+        : {};
 
       setRole(role);
     };

@@ -4,11 +4,9 @@ import { Container, Table, Spinner } from 'react-bootstrap';
 import SButton from '../../components/Button';
 import SBreadCrumb from '../../components/Breadcrumb';
 import SNavbar from '../../components/Navbar';
-import axios from 'axios';
-import { config } from '../../configs';
+import { getData } from '../../utils/fetch';
 
 export default function PageCategories() {
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
@@ -18,11 +16,7 @@ export default function PageCategories() {
     const getCategoriesAPI = async () => {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${config.api_host_dev}/cms/categories`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await getData(`/cms/categories`);
 
         setIsLoading(false);
         setData(res.data.data);
@@ -33,8 +27,6 @@ export default function PageCategories() {
     };
     getCategoriesAPI();
   }, []);
-
-  if (!token) return <Navigate to='/signin' replace={true} />;
 
   return (
     <>
