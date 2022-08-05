@@ -35,6 +35,7 @@ function PageSignin() {
       );
 
       localStorage.setItem('token', res.data.data.token);
+      localStorage.setItem('role', res.data.data.role);
       setIsLoading(false);
       navigate('/');
     } catch (err) {
