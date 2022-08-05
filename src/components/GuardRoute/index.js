@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 export default function GuestOnlyRoute({ children }) {
   let { token } = useSelector((state) => state.auth);
@@ -9,5 +9,5 @@ export default function GuestOnlyRoute({ children }) {
   console.log(children);
   if (!token) return <Navigate to='/login' replace={true} />;
 
-  return children;
+  return children || <Outlet />;
 }

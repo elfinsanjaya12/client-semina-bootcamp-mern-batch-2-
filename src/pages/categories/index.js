@@ -1,70 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Container, Table, Spinner } from 'react-bootstrap';
-import SButton from '../../components/Button';
-import SBreadCrumb from '../../components/Breadcrumb';
-import SNavbar from '../../components/Navbar';
-import { getData } from '../../utils/fetch';
+import React, { useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import BreadCrumb from '../../components/Breadcrumb';
+import Button from '../../components/Button';
+import Table from '../../components/TableWithAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCategories } from '../../redux/categories/actions';
+import AlertMessage from '../../components/Alert';
+import Swal from 'sweetalert2';
+import { deleteData } from '../../utils/fetch';
+import { setNotif } from '../../redux/notif/actions';
 
-export default function PageCategories() {
+function Categories() {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const notif = useSelector((state) => state.notif);
+  const categories = useSelector((state) => state.categories);
 
   useEffect(() => {
-    const getCategoriesAPI = async () => {
-      setIsLoading(true);
-      try {
-        const res = await getData(`/cms/categories`);
-
-        setIsLoading(false);
-        setData(res.data.data);
-      } catch (err) {
-        setIsLoading(false);
-        console.log(err);
-      }
-    };
-    getCategoriesAPI();
+    dispatch(fetchCategories());
   }, []);
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Apa kamu yakin?',
+      text: 'Anda tidak akan dapat mengembalikan ini!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Iya, Hapus',
+      cancelButtonText: 'Batal',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteData(`api/v1/categories/${id}`);
+
+        // Swal.fire({
+        //   position: 'top-end',
+        //   icon: 'success',
+        //   title: `Berhasil hapus kategori ${res.data.data.name}`,
+        //   showConfirmButton: false,
+        //   timer: 1500,
+        // });
+
+        dispatch(
+          setNotif(
+            true,
+            'success',
+            `berhasil hapus kategori ${res.data.data.name}`
+          )
+        );
+
+        dispatch(fetchCategories());
+      }
+    });
+  };
+
   return (
-    <>
-      <SNavbar />
-      <Container className='mt-3'>
-        <SBreadCrumb textSecound='Categories' />
-
-        <SButton action={() => navigate('/categories/create')}>Tambah</SButton>
-
-        <Table className='mt-3' striped bordered hover variant='dark'>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan={data.length + 1} style={{ textAlign: 'center' }}>
-                  <div className='flex items-center justify-center'>
-                    <Spinner animation='grow' variant='light' />
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              data.map((data, index) => (
-                <tr key={index}>
-                  <td>{(index += 1)}</td>
-                  <td>{data.name}</td>
-                  <td>Otto</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </Table>
-      </Container>
-    </>
+    <Container className='mt-3'>
+      <Button action={() => navigate('/categories/create')}>Tambah</Button>
+      <BreadCrumb textSecound={'Categories'} />
+      {notif.status && (
+        <AlertMessage type={notif.typeNotif} message={notif.message} />
+      )}
+      <Table
+        status={categories.status}
+        thead={['Nama', 'Aksi']}
+        data={categories.data}
+        tbody={['name']}
+        editUrl={`/categories/edit`}
+        deleteAction={(id) => handleDelete(id)}
+        withoutPagination
+      />
+    </Container>
   );
 }
+
+export default Categories;
