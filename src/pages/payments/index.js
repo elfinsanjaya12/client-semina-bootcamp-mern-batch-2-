@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import BreadCrumb from '../../components/Breadcrumb';
+import SBreadCrumb from '../../components/Breadcrumb';
 import Button from '../../components/Button';
 import Table from '../../components/TableWithAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPayments } from '../../redux/payments/actions';
-import AlertMessage from '../../components/Alert';
+import SAlert from '../../components/Alert';
 import Swal from 'sweetalert2';
 import { deleteData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
@@ -75,7 +75,7 @@ function PaymentsPage() {
 
   return (
     <Container className='mt-3'>
-      <BreadCrumb textSecound={'Payments'} />
+      <SBreadCrumb textSecound={'Payments'} />
 
       {access.tambah && (
         <Button className={'mb-3'} action={() => navigate('/payments/create')}>
@@ -84,7 +84,7 @@ function PaymentsPage() {
       )}
 
       {notif.status && (
-        <AlertMessage type={notif.typeNotif} message={notif.message} />
+        <SAlert type={notif.typeNotif} message={notif.message} />
       )}
       <Table
         status={payments.status}
