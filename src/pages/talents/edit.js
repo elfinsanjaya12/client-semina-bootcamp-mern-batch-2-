@@ -129,7 +129,7 @@ function TalentsEdit() {
   return (
     <Container>
       <SBreadCrumb
-        textSecound={'Speakers'}
+        textSecound={'Talents'}
         urlSecound={'/talents'}
         textThird='Edit'
       />
@@ -139,6 +139,7 @@ function TalentsEdit() {
         isLoading={isLoading}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        edit
       />
     </Container>
   );

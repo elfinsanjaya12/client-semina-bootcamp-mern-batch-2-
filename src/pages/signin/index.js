@@ -3,9 +3,9 @@ import { Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import SAlert from '../../components/Alert';
 import SForm from './form';
+import { postData } from '../../utils/fetch';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../../redux/auth/actions';
-import { postData } from '../../utils/fetch';
 
 function PageSignin() {
   const dispatch = useDispatch();
@@ -31,12 +31,9 @@ function PageSignin() {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const res = await postData('/cms/auth/signin', form);
+      const res = await postData(`/cms/auth/signin`, form);
 
-      dispatch(
-        userLogin(res.data.data.token, res.data.data.role, res.data.data.email)
-      );
-
+      dispatch(userLogin(res.data.data.token, res.data.data.role));
       setIsLoading(false);
       navigate('/');
     } catch (err) {

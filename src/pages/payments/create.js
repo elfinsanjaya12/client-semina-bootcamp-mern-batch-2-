@@ -34,6 +34,8 @@ function PaymentsCreate() {
   };
 
   const handleChange = async (e) => {
+    console.log('e.target');
+    console.log(e.target);
     if (e.target.name === 'avatar') {
       if (
         e?.target?.files[0]?.type === 'image/jpg' ||

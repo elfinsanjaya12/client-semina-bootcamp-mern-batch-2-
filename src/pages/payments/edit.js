@@ -142,6 +142,7 @@ function PaymentsEdit() {
         isLoading={isLoading}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        edit
       />
     </Container>
   );

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import BreadCrumb from '../../components/Breadcrumb';
+import SBreadCrumb from '../../components/Breadcrumb';
 import Button from '../../components/Button';
 import Table from '../../components/TableWithAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from '../../redux/categories/actions';
-import AlertMessage from '../../components/Alert';
+import SAlert from '../../components/Alert';
 import Swal from 'sweetalert2';
 import { deleteData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
@@ -58,7 +58,6 @@ function Categories() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await deleteData(`/cms/categories/${id}`);
-
         dispatch(
           setNotif(
             true,
@@ -66,7 +65,6 @@ function Categories() {
             `berhasil hapus kategori ${res.data.data.name}`
           )
         );
-
         dispatch(fetchCategories());
       }
     });
@@ -74,7 +72,7 @@ function Categories() {
 
   return (
     <Container className='mt-3'>
-      <BreadCrumb textSecound={'Categories'} />
+      <SBreadCrumb textSecound={'Categories'} />
 
       {access.tambah && (
         <Button
@@ -86,8 +84,9 @@ function Categories() {
       )}
 
       {notif.status && (
-        <AlertMessage type={notif.typeNotif} message={notif.message} />
+        <SAlert type={notif.typeNotif} message={notif.message} />
       )}
+
       <Table
         status={categories.status}
         thead={['Nama', 'Aksi']}

@@ -43,8 +43,6 @@ export const fetchOrders = () => {
       }, 5000);
 
       let params = {
-        keyword: getState().orders.keyword,
-        event: getState()?.orders?.event?.value || '',
         page: getState().orders?.page || 1,
         limit: getState().orders?.limit || 10,
         startDate: moment(getState().orders?.date?.startDate).format(
@@ -62,6 +60,7 @@ export const fetchOrders = () => {
           email: res.personalDetail.email,
           title: res.historyEvent.title,
           date: res.historyEvent.date,
+          orderDate: moment(res.date).format('DD-MM-YYYY, h:mm:ss a'),
           venueName: res.historyEvent.venueName,
         });
       });

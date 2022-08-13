@@ -2,9 +2,9 @@ import {
   START_FETCHING_LISTS_CATEGORIES,
   SUCCESS_FETCHING_LISTS_CATEGORIES,
   ERROR_FETCHING_LISTS_CATEGORIES,
-  START_FETCHING_LISTS_SPEAKERS,
-  SUCCESS_FETCHING_LISTS_SPEAKERS,
-  ERROR_FETCHING_LISTS_SPEAKERS,
+  START_FETCHING_LISTS_TALENTS,
+  SUCCESS_FETCHING_LISTS_TALENTS,
+  ERROR_FETCHING_LISTS_TALENTS,
   START_FETCHING_LISTS_EVENTS,
   SUCCESS_FETCHING_LISTS_EVENTS,
   ERROR_FETCHING_LISTS_EVENTS,
@@ -20,8 +20,8 @@ const statuslist = {
 const initialState = {
   categories: [],
   statusCategories: statuslist.idle,
-  speakers: [],
-  statusSpeakers: statuslist.idle,
+  talents: [],
+  statusTalents: statuslist.idle,
   events: [],
   statusEvents: statuslist.idle,
 };
@@ -41,17 +41,17 @@ export default function reducer(state = initialState, action) {
         categories: action.categories,
       };
 
-    case START_FETCHING_LISTS_SPEAKERS:
-      return { ...state, statusSpeakers: statuslist.process };
+    case START_FETCHING_LISTS_TALENTS:
+      return { ...state, statusTalents: statuslist.process };
 
-    case ERROR_FETCHING_LISTS_SPEAKERS:
-      return { ...state, statusSpeakers: statuslist.error };
+    case ERROR_FETCHING_LISTS_TALENTS:
+      return { ...state, statusTalents: statuslist.error };
 
-    case SUCCESS_FETCHING_LISTS_SPEAKERS:
+    case SUCCESS_FETCHING_LISTS_TALENTS:
       return {
         ...state,
-        statusSpeakers: statuslist.success,
-        speakers: action.speakers,
+        statusTalents: statuslist.success,
+        talents: action.talents,
       };
 
     case START_FETCHING_LISTS_EVENTS:

@@ -2,9 +2,9 @@ import {
   START_FETCHING_LISTS_CATEGORIES,
   SUCCESS_FETCHING_LISTS_CATEGORIES,
   ERROR_FETCHING_LISTS_CATEGORIES,
-  START_FETCHING_LISTS_SPEAKERS,
-  ERROR_FETCHING_LISTS_SPEAKERS,
-  SUCCESS_FETCHING_LISTS_SPEAKERS,
+  START_FETCHING_LISTS_TALENTS,
+  ERROR_FETCHING_LISTS_TALENTS,
+  SUCCESS_FETCHING_LISTS_TALENTS,
   START_FETCHING_LISTS_EVENTS,
   ERROR_FETCHING_LISTS_EVENTS,
   SUCCESS_FETCHING_LISTS_EVENTS,
@@ -14,7 +14,7 @@ import { getData } from '../../utils/fetch';
 import debounce from 'debounce-promise';
 
 let debouncedFetchListsCategories = debounce(getData, 1000);
-let debouncedFetchListsSpeakers = debounce(getData, 1000);
+let debouncedFetchListsTalents = debounce(getData, 1000);
 let debouncedFetchListsEvents = debounce(getData, 1000);
 
 export const startFetchingListsCategories = () => {
@@ -64,32 +64,31 @@ export const fetchListCategories = () => {
   };
 };
 
-// redux list speakers
-export const startFetchingListsSpeakers = () => {
+export const startFetchingListsTalents = () => {
   return {
-    type: START_FETCHING_LISTS_SPEAKERS,
+    type: START_FETCHING_LISTS_TALENTS,
   };
 };
 
-export const successFetchingListSpeakers = ({ speakers }) => {
+export const successFetchingListTalents = ({ talents }) => {
   return {
-    type: SUCCESS_FETCHING_LISTS_SPEAKERS,
-    speakers,
+    type: SUCCESS_FETCHING_LISTS_TALENTS,
+    talents,
   };
 };
 
-export const errorFetchingListSpeakers = () => {
+export const errorFetchingListTalents = () => {
   return {
-    type: ERROR_FETCHING_LISTS_SPEAKERS,
+    type: ERROR_FETCHING_LISTS_TALENTS,
   };
 };
 
-export const fetchListSpeakers = () => {
+export const fetchListTalents = () => {
   return async (dispatch) => {
-    dispatch(startFetchingListsSpeakers());
+    dispatch(startFetchingListsTalents());
 
     try {
-      let res = await debouncedFetchListsSpeakers('/cms/speakers');
+      let res = await debouncedFetchListsTalents('/cms/talents');
 
       let _temp = [];
 
@@ -97,17 +96,17 @@ export const fetchListSpeakers = () => {
         _temp.push({
           value: res._id,
           label: res.name,
-          target: { value: res._id, name: 'speaker' },
+          target: { value: res._id, name: 'talents' },
         });
       });
 
       dispatch(
-        successFetchingListSpeakers({
-          speakers: _temp,
+        successFetchingListTalents({
+          talents: _temp,
         })
       );
     } catch (error) {
-      dispatch(errorFetchingListSpeakers());
+      dispatch(errorFetchingListTalents());
     }
   };
 };

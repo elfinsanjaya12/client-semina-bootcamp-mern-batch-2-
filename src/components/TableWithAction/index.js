@@ -6,16 +6,16 @@ import Thead from '../Thead';
 
 function TableWithAction({
   withoutPagination,
-  actionNotDisplay,
   handlePageClick,
+  actionNotDisplay,
   data,
   thead,
   tbody,
   editUrl,
   deleteAction,
-  pages,
   customAction,
   status,
+  pages,
 }) {
   return (
     <>

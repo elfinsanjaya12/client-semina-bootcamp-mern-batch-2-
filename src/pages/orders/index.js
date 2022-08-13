@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb';
-import Button from '../../components/Button';
 import Table from '../../components/TableWithAction';
 import SearchInput from '../../components/SearchInput';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,19 +11,12 @@ import DateRange from '../../components/InputDate';
 import { formatDate } from '../../utils/formatDate';
 
 function OrderPage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth);
+
   const notif = useSelector((state) => state.notif);
   const orders = useSelector((state) => state.orders);
 
   let [isShowed, setIsShowed] = React.useState(false);
-
-  useEffect(() => {
-    return () => {
-      if (!user.token) return navigate('/login');
-    };
-  });
 
   useEffect(() => {
     dispatch(fetchOrders());
@@ -67,9 +58,16 @@ function OrderPage() {
       )}
       <Table
         status={orders.status}
-        thead={['Nama', 'Email', 'Judul', 'Tanggal', 'Tempat']}
+        thead={[
+          'Nama',
+          'Email',
+          'Judul',
+          'Tanggal Event',
+          'Tanggal Order',
+          'Tempat',
+        ]}
         data={orders.data}
-        tbody={['name', 'email', 'title', 'date', 'venueName']}
+        tbody={['name', 'email', 'title', 'date', 'orderDate', 'venueName']}
         pages={orders.pages}
         actionNotDisplay
         handlePageClick={({ selected }) => dispatch(setPage(selected + 1))}

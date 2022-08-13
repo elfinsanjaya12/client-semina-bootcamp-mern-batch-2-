@@ -19,7 +19,7 @@ import { setNotif } from '../../redux/notif/actions';
 import SelectBox from '../../components/SelectBox';
 import {
   fetchListCategories,
-  fetchListSpeakers,
+  fetchListTalents,
 } from '../../redux/lists/actions';
 
 function EventPage() {
@@ -32,10 +32,10 @@ function EventPage() {
 
   useEffect(() => {
     dispatch(fetchEvents());
-  }, [dispatch, events.keyword, events.category, events.speaker]);
+  }, [dispatch, events.keyword, events.category, events.talent]);
 
   useEffect(() => {
-    dispatch(fetchListSpeakers());
+    dispatch(fetchListTalents());
     dispatch(fetchListCategories());
   }, [dispatch]);
 
@@ -82,7 +82,7 @@ function EventPage() {
           <SelectBox
             placeholder={'Masukan pencarian kategori'}
             name='category'
-            value={events.categories}
+            value={events.category}
             options={lists.categories}
             isClearable={true}
             handleChange={(e) => dispatch(setCategory(e))}
@@ -91,9 +91,9 @@ function EventPage() {
         <Col>
           <SelectBox
             placeholder={'Masukan pencarian pembicara'}
-            name='speaker'
-            value={events.speaker}
-            options={lists.speakers}
+            name='talents'
+            value={events.talent}
+            options={lists.talents}
             isClearable={true}
             handleChange={(e) => dispatch(setTalent(e))}
           />
