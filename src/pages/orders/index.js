@@ -40,8 +40,7 @@ function OrderPage() {
   }${orders.date?.endDate ? ' - ' + formatDate(orders.date.endDate) : ''}`;
 
   return (
-    <Container>
-      <Button action={() => navigate('/orders/create')}>Tambah</Button>
+    <Container className='mt-3'>
       <BreadCrumb textSecound={'orders'} />
       <Row>
         <Col

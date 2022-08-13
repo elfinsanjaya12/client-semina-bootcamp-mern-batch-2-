@@ -67,7 +67,7 @@ function EventPage() {
   };
 
   return (
-    <Container>
+    <Container className='mt-3'>
       <Button action={() => navigate('/events/create')}>Tambah</Button>
       <BreadCrumb textSecound={'Events'} />
       <Row>
