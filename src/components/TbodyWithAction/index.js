@@ -50,6 +50,7 @@ function TbodyWithAction({
               )}
               {!actionNotDisplay && (
                 <td>
+                  {customAction && customAction(data._id, data.statusEvent)}
                   {editUrl && (
                     <Button
                       variant='success'

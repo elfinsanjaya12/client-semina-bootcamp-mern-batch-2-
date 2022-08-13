@@ -96,7 +96,7 @@ export const fetchListTalents = () => {
         _temp.push({
           value: res._id,
           label: res.name,
-          target: { value: res._id, name: 'talents' },
+          target: { value: res._id, name: 'talent' },
         });
       });
 
