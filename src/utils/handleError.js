@@ -1,86 +1,54 @@
+import { postData } from '../utils/fetch';
+import axios from 'axios';
+import { config } from '../configs';
+
 const handleError = (error) => {
-  let dataErr = {};
-  let setMessage = '';
-  let setStep = '';
-  const { response, message } = error;
-  const status = response ? response.status : null;
-  try {
-    setMessage = response?.data?.data?.message || message;
-    setStep = response?.data?.data?.step || '';
-  } catch (e) {
-    console.log(e);
-  }
-  switch (status) {
-    case 400:
-      dataErr = {
-        data: response,
-        code: response.status,
-        message: response?.data?.message || setMessage,
-        desc: 'Bad Request',
-      };
-      break;
-    case 401:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Unauthorized',
-      };
+  console.log('error');
+  console.log(error.response.data.msg);
 
-      window.location.href = `${window.location.origin}/dashboard`;
+  // let dataErr = {};
+  // let setMessage = '';
+  // let setStep = '';
+  // const { response, msg } = error;
+  // const status = response ? response.status : null;
+  const originalRequest = error.config;
+  console.log('originalRequest');
+  console.log(originalRequest);
 
-      localStorage.clear();
-      break;
-    case 402:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Payment Required',
-      };
-      break;
-    case 403:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Forbidden',
-      };
-      break;
-    case 404:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Not Found',
-      };
-      break;
-    case 409:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Conflict',
-      };
-      break;
-    case 422:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: response.data.response.message,
-        step: setStep,
-      };
-      break;
-    case 500:
-      dataErr = {
-        code: response.status,
-        message: setMessage,
-        desc: 'Internal Server Error',
-      };
-      break;
-    default:
-      dataErr = {
-        code: 404,
-        message: setMessage,
-        desc: message,
-      };
+  if (error.response.data.msg === 'jwt expired') {
+    console.log('test');
+    originalRequest._retry = true;
+    const session = localStorage.getItem('auth')
+      ? JSON.parse(localStorage.getItem('auth'))
+      : {};
+
+    console.log('session');
+    console.log(session);
+    return axios
+      .get(`${config.api_host_dev}/cms/refresh-token/${session.refreshToken}`)
+      .then((res) => {
+        console.log('res');
+        console.log(res);
+        if (res.data.data) {
+          console.log('res.data');
+          console.log(res.data);
+
+          localStorage.setItem(
+            'auth',
+            JSON.stringify({
+              ...session,
+              token: res.data.data.token,
+            })
+          );
+          originalRequest.headers.authorization = res.data.token;
+          return axios(originalRequest);
+        } else {
+          window.location.href = '/login';
+          localStorage.removeItem('auth');
+        }
+      });
   }
-  return dataErr;
+  return error;
 };
 
 export default handleError;
