@@ -100,15 +100,15 @@ function PaymentsEdit() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    try {
-      const payload = {
-        image: form.file,
-        role: form.role,
-        type: form.type,
-      };
 
-      const res = await putData(`/cms/payments/${paymentId}`, payload);
+    const payload = {
+      image: form.file,
+      role: form.role,
+      type: form.type,
+    };
 
+    const res = await putData(`/cms/payments/${paymentId}`, payload);
+    if (res.data.data) {
       dispatch(
         setNotif(
           true,
@@ -118,13 +118,13 @@ function PaymentsEdit() {
       );
       navigate('/payments');
       setIsLoading(false);
-    } catch (err) {
+    } else {
       setIsLoading(false);
       setAlert({
         ...alert,
         status: true,
         type: 'danger',
-        message: err.response.data.msg,
+        message: res.response.data.msg,
       });
     }
   };

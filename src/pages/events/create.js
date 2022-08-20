@@ -113,24 +113,25 @@ function EventsCreate() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    try {
-      const payload = {
-        date: form.date,
-        image: form.file,
-        title: form.title,
-        price: form.price,
-        about: form.about,
-        venueName: form.venueName,
-        tagline: form.tagline,
-        keyPoint: form.keyPoint,
-        category: form.category.value,
-        talent: form.talent.value,
-        status: form.status,
-        tickets: form.tickets,
-      };
 
-      const res = await postData('/cms/events', payload);
+    const payload = {
+      date: form.date,
+      image: form.file,
+      title: form.title,
+      price: form.price,
+      about: form.about,
+      venueName: form.venueName,
+      tagline: form.tagline,
+      keyPoint: form.keyPoint,
+      category: form.category.value,
+      talent: form.talent.value,
+      status: form.status,
+      tickets: form.tickets,
+    };
 
+    const res = await postData('/cms/events', payload);
+
+    if (res.data.data) {
       dispatch(
         setNotif(
           true,
@@ -140,13 +141,13 @@ function EventsCreate() {
       );
       navigate('/events');
       setIsLoading(false);
-    } catch (err) {
+    } else {
       setIsLoading(false);
       setAlert({
         ...alert,
         status: true,
         type: 'danger',
-        message: err.response.data.msg,
+        message: res.response.data.msg,
       });
     }
   };
